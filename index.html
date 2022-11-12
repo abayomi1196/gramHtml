@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- google tag analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-RZ3SWVWV2J"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-RZ3SWVWV2J");
+    </script>
+
+    <!-- font awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta
+      name="description"
+      content="A half-life calculator that estimates how long a drug is in your body."
+    />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <title>Drug Half-life Calculator – Grams</title>
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="/dist/output.css" />
+  </head>
+  <body>
+    <div
+      class="h-screen w-screen flex flex-col md:container md:mx-auto p-3 md:py-10"
+    >
+      <div class="flex items-center mb-2">
+        <img src="/assets/icon.svg" alt="Logo" class="h-12 w-12 mb-1.5" />
+
+        <div class="ml-3">
+          <h1>grams.io</h1>
+          <p>How long do drugs stay in your body?</p>
+        </div>
+      </div>
+
+      <p class="tagline mt-3">
+        Grams works by calculating the
+        <a href="https://en.wikipedia.org/wiki/Elimination_(pharmacology)">
+          half-life elimination
+        </a>
+        timeline of ingested drugs. Some drugs (notably alcohol and THC) cannot
+        be easily modeled in this way, but we will release specialized
+        calculators soon. Drug metabolism depends on ingester characteristics.
+        For example, caffeine&apos;s half-life is 97 hours in infants but only 5
+        hours in adults. <b>Research drugs before you consume them</b>. This
+        site is not medical advice. <br />
+        <!-- TODO -> update link -->
+        <a href="#">(Example report)</a>
+      </p>
+
+      <div id="ingestions" class="container pt-6 px-0">
+        <div class="ingest-container grid gap-4 mb1">
+          <span>Offset</span>
+          <span>Drug name</span>
+          <span>Dosage</span>
+          <span>Half-life</span>
+          <span> </span>
+        </div>
+
+        <datalist id="known-drugs"></datalist>
+
+        <!-- TODO -> add dynamic content -->
+        <div id="ingestions-wrapper"></div>
+
+        <div class="flex justify-between py-4">
+          <button
+            class="flex items-center"
+            onclick="function handleClick() {
+              setIngestion([...getIngestion(), emptyIngestion()])
+            }
+            handleClick();
+            "
+          >
+            <i class="fa-solid fa-plus"></i>
+            <span class="ml-1">Add Ingestion</span>
+          </button>
+
+          <button
+            onclick="function handleClick() {
+              navigator.clipboard.writeText(window.location.toString())
+            }
+            handleClick();
+            "
+          >
+            <i class="fa-solid fa-copy"></i>
+            <span class="ml-1">Copy URL</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="results" class="container py-2 px-0 flex-1 flex flex-col">
+        <div class="flex"><h2>Results</h2></div>
+        <hr class="mb-4 mt-1" />
+        <!-- add graph data -->
+      </div>
+
+      <div class="mt-auto text-center text-md">
+        <a rel="noreferrer" href="email:contact@grams.io" target="_blank">
+          contact@grams.io
+        </a>
+        &nbsp; | &nbsp;
+        <a
+          rel="noreferrer"
+          href="https://github.com/ammario/grams.io"
+          target="_blank"
+        >
+          View Source
+        </a>
+      </div>
+    </div>
+
+    <script src="/dist/js/app.js"></script>
+  </body>
+</html>

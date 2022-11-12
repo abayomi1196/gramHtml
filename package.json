@@ -1,0 +1,25 @@
+{
+  "name": "gramhtml",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "keywords": [],
+  "author": "Abayomi Ayodele <samabayomi301@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/color-hash": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "browser-sync": "^2.27.10",
+    "copyfiles": "^2.4.1",
+    "eslint": "^8.27.0",
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^3.2.4",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "color-hash": "^2.0.1",
+    "mathjs": "^11.3.3"
+  }
+}
