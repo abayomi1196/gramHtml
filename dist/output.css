@@ -553,6 +553,10 @@ video {
   margin-bottom: 0.5rem;
 }
 
+.mb-1\.5 {
+  margin-bottom: 0.375rem;
+}
+
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -579,10 +583,6 @@ video {
 
 .mt-auto {
   margin-top: auto;
-}
-
-.mb-1\.5 {
-  margin-bottom: 0.375rem;
 }
 
 .flex {
@@ -627,10 +627,6 @@ video {
 
 .gap-4 {
   gap: 1rem;
-}
-
-.border {
-  border-width: 1px;
 }
 
 .p-3 {

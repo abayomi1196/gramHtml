@@ -36,7 +36,7 @@ const knownDrugs = {
     Sertraline: "26h"
 };
 // "state"
-const { getValue: getIngestion, setValue: setIngestion } = useState([emptyIngestion()]);
+const { getValue: getIngestion, setValue: setIngestion } = useState([]);
 // elements
 const knownDrugsEl = document.getElementById("known-drugs");
 const ingestionsWrappersEl = document.getElementById("ingestions-wrapper");
@@ -53,13 +53,17 @@ knownDrugsEl.innerHTML = knownDrugsHTML;
 function customRender() {
     ingestionsWrappersEl.innerHTML = getIngestion()
         .map((ingestion, index) => {
-        console.log(index);
         function edit(editedIngestion) {
-            const newIngestions = [...getIngestion()];
-            newIngestions[index] = {
-                ...ingestion,
-                ...editedIngestion
-            };
+            console.log("editing");
+            const selectedIngestion = getIngestion().find((item) => item.id === ingestion.id);
+            const newIngestions = getIngestion().map((item) => {
+                if (item.id === selectedIngestion.id) {
+                    return { ...selectedIngestion, ...editedIngestion };
+                }
+                else {
+                    return item;
+                }
+            });
             setIngestion(newIngestions);
         }
         return `
@@ -69,9 +73,12 @@ function customRender() {
           id="offset" 
           placeholder="0m" 
           value="${ingestion.offset}"
-          onchange="${(e) => {
-            edit({ offset: e.target.value });
-        }}" 
+          onchange="${function handleChange(event) {
+            console.log((event?.target).value);
+            // edit({ offset: (event?.target as HTMLInputElement).value });
+        }}
+          handleChange(event)
+          "
           required
         />
 
@@ -82,13 +89,15 @@ function customRender() {
           style="border-width: 3px"
           placeholder="Caffeine"
           value="${ingestion.drugName}"
-          onchange="${(e) => {
+          onchange="${function handleChange(e) {
             const knownHalfLife = knownDrugs[e.target.value];
-            edit({
-                halfLife: knownHalfLife ? knownHalfLife : ingestion.halfLife,
-                drugName: e.target.value
-            });
-        }}"
+            // edit({
+            //   halfLife: knownHalfLife ? knownHalfLife : ingestion.halfLife,
+            //   drugName: (e.target as HTMLInputElement).value
+            // });
+        }}
+          handleChange(e)
+          "
           required
         />
 
@@ -97,7 +106,11 @@ function customRender() {
           value="${ingestion.dosage}"
           placeholder="0mg"
           id="dosage"
-          onchange="${(e) => edit({ dosage: e.target.value })}"
+          onchange="${function handleChange(e) {
+            // edit({ dosage: (e.target as HTMLInputElement).value });
+        }}
+          handleChange(e)
+          "
           required
         />
 
@@ -106,7 +119,11 @@ function customRender() {
           id="half-life"
           placeholder="4.5h"
           value="${ingestion.halfLife}"
-          onchange="${(e) => edit({ halfLife: e.target.value })}"
+          onchange="${function (e) {
+            // edit({ halfLife: (e.target as HTMLInputElement).value });
+        }}
+          handleChange(e)
+          "
           required
         />
 
@@ -116,8 +133,7 @@ function customRender() {
           onclick="${function handleClick(index) {
             const copy = [...getIngestion()];
             copy.splice(index, 1);
-            console.log(JSON.stringify(getIngestion()), JSON.stringify(copy));
-            setIngestion([]);
+            setIngestion(copy);
         }}
           handleClick(${index})
           "
@@ -132,11 +148,16 @@ function customRender() {
 const ingestionsHTML = getIngestion()
     .map((ingestion, index) => {
     function edit(editedIngestion) {
-        const newIngestions = [...getIngestion()];
-        newIngestions[index] = {
-            ...ingestion,
-            ...editedIngestion
-        };
+        console.log("editing");
+        const selectedIngestion = getIngestion().find((item) => item.id === ingestion.id);
+        const newIngestions = getIngestion().map((item) => {
+            if (item.id === selectedIngestion.id) {
+                return { ...selectedIngestion, ...editedIngestion };
+            }
+            else {
+                return item;
+            }
+        });
         setIngestion(newIngestions);
     }
     return `
@@ -146,9 +167,12 @@ const ingestionsHTML = getIngestion()
           id="offset" 
           placeholder="0m" 
           value="${ingestion.offset}"
-          onchange="${(e) => {
-        edit({ offset: e.target.value });
-    }}" 
+          onchange="${function handleChange(event) {
+        console.log((event?.target).value);
+        // edit({ offset: (event?.target as HTMLInputElement).value });
+    }}
+          handleChange(event)
+          "
           required
         />
 
@@ -159,13 +183,15 @@ const ingestionsHTML = getIngestion()
           style="border-width: 3px"
           placeholder="Caffeine"
           value="${ingestion.drugName}"
-          onchange="${(e) => {
-        const knownHalfLife = knownDrugs[e.target.value];
-        edit({
-            halfLife: knownHalfLife ? knownHalfLife : ingestion.halfLife,
-            drugName: e.target.value
-        });
-    }}"
+          onchange="${function handleChange(event) {
+        const knownHalfLife = knownDrugs[event.target.value];
+        // edit({
+        //   halfLife: knownHalfLife ? knownHalfLife : ingestion.halfLife,
+        //   drugName: (event.target as HTMLInputElement).value
+        // });
+    }}
+          handleChange(event)
+          "
           required
         />
 
@@ -174,7 +200,11 @@ const ingestionsHTML = getIngestion()
           value="${ingestion.dosage}"
           placeholder="0mg"
           id="dosage"
-          onchange="${(e) => edit({ dosage: e.target.value })}"
+          onchange="${function handleChange(e) {
+        // edit({ dosage: (e.target as HTMLInputElement).value });
+    }}
+          handleChange(event)
+          "
           required
         />
 
@@ -183,7 +213,11 @@ const ingestionsHTML = getIngestion()
           id="half-life"
           placeholder="4.5h"
           value="${ingestion.halfLife}"
-          onchange="${(e) => edit({ halfLife: e.target.value })}"
+          onchange="${function handleChange(e) {
+        // edit({ halfLife: (e.target as HTMLInputElement).value });
+    }}
+          handleChange(event)
+          "
           required
         />
 
@@ -193,8 +227,7 @@ const ingestionsHTML = getIngestion()
           onclick="${function handleClick(index) {
         const copy = [...getIngestion()];
         copy.splice(index, 1);
-        console.log(JSON.stringify(getIngestion()), JSON.stringify(copy));
-        setIngestion([]);
+        setIngestion(copy);
     }}
           handleClick(${index})
           "
