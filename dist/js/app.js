@@ -43,7 +43,7 @@ const ingestionsWrappersEl = document.getElementById("ingestions-wrapper");
 const knownDrugsHTML = Object.keys(knownDrugs)
     .map((key) => {
     return `
-    <option key={${key}} value={${key}}>
+    <option key=${key} value=${key}>
     ${knownDrugs[key]}
     </option>
   `;
@@ -51,12 +51,14 @@ const knownDrugsHTML = Object.keys(knownDrugs)
     .join("");
 knownDrugsEl.innerHTML = knownDrugsHTML;
 function customRender() {
-    ingestionsWrappersEl.innerHTML = getIngestion()
+    const copy = [...getIngestion()];
+    ingestionsWrappersEl.innerHTML = copy
         .map((ingestion, index) => {
         function edit(editedIngestion) {
-            console.log("editing");
-            const selectedIngestion = getIngestion().find((item) => item.id === ingestion.id);
-            const newIngestions = getIngestion().map((item) => {
+            console.log("editing customRender");
+            const selectedIngestion = copy.find((item) => item.id === ingestion.id);
+            console.log(selectedIngestion);
+            const newIngestions = copy.map((item) => {
                 if (item.id === selectedIngestion.id) {
                     return { ...selectedIngestion, ...editedIngestion };
                 }
@@ -64,7 +66,7 @@ function customRender() {
                     return item;
                 }
             });
-            setIngestion(newIngestions);
+            // setIngestion(newIngestions);
         }
         return `
       <div key="${ingestion.id}" class="ingest-container grid gap-4 py-1 mb-2">
@@ -73,12 +75,13 @@ function customRender() {
           id="offset" 
           placeholder="0m" 
           value="${ingestion.offset}"
-          onchange="${function handleChange(event) {
-            console.log((event?.target).value);
-            // edit({ offset: (event?.target as HTMLInputElement).value });
+          onchange='${function handleChange(event) {
+            const elId = event.target.getAttribute("id");
+            const el = document.getElementById(elId);
+            el.addEventListener("input", (e) => console.log(e));
         }}
           handleChange(event)
-          "
+          '
           required
         />
 
@@ -148,7 +151,7 @@ function customRender() {
 const ingestionsHTML = getIngestion()
     .map((ingestion, index) => {
     function edit(editedIngestion) {
-        console.log("editing");
+        console.log("editing html");
         const selectedIngestion = getIngestion().find((item) => item.id === ingestion.id);
         const newIngestions = getIngestion().map((item) => {
             if (item.id === selectedIngestion.id) {
@@ -167,12 +170,9 @@ const ingestionsHTML = getIngestion()
           id="offset" 
           placeholder="0m" 
           value="${ingestion.offset}"
-          onchange="${function handleChange(event) {
-        console.log((event?.target).value);
-        // edit({ offset: (event?.target as HTMLInputElement).value });
-    }}
-          handleChange(event)
-          "
+          onchange="${edit({
+        offset: (event?.target).value
+    })}"
           required
         />
 
